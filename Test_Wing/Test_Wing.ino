@@ -1,23 +1,27 @@
-#define lwing1_pin 12
+#include <ESP32Servo.h>
+#include <Ps3Controller.h>
+
+Servo lwing;
+#define lwing_pin 12
 const int deadzone = 20;  
 const int minAngle = 0;   
-const int maxAngle = 30;  
-int currentAngle = 15;     
+const int maxAngle = 180;  
+int currentAngle = 90;     
 bool increasing = true;
 
 unsigned long lastUpdate = 0;
-const unsigned long flapSpeed = 5; 
+const unsigned long flapSpeed = 20; 
 
 void setup() {
   Serial.begin(115200);
   lwing.attach(lwing_pin);
-  lwing.write(15);
+  lwing.write(45);
   Ps3.begin("40:f5:20:45:10:f6");
   Serial.println("Waiting for PS3 Controller...");
 }
 
 void loop() {
-  if (Ps3.isConnected()) {
+  if (Ps3.isConnected()) { 
     int lx = Ps3.data.analog.stick.lx;
     int ly = Ps3.data.analog.stick.ly;
     unsigned long currentMillis = millis();
@@ -46,10 +50,11 @@ void loop() {
       } 
 
       else if (lx > deadzone) {
-        lwing.write(15); 
+        lwing.write(90); 
       } 
       else {
-        lwing.write(15);
+        lwing.write(90);
       }
+    }
   }
 }
