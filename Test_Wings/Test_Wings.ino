@@ -8,8 +8,8 @@ Servo rwing;
 #define rwing_pin 27
 
 const int deadzone = 20;  
-const int minAngle = 0;   
-const int maxAngle = 180;  
+const int minAngle = 45;   
+const int maxAngle = 135;  
 int currentAngle = 90;     
 bool increasing = true;
 
@@ -20,8 +20,8 @@ void setup() {
   Serial.begin(115200);
   lwing.attach(lwing_pin);
   rwing.attach(rwing_pin);
-  lwing.write(45);
-  rwing.write(45);
+  lwing.write(90);
+  rwing.write(90);
   Ps3.begin("40:f5:20:45:10:f6");
   Serial.println("Waiting for PS3 Controller...");
 }
@@ -38,12 +38,12 @@ void loop() {
       if (increasing) {
         currentAngle += 2;
         if (currentAngle >= maxAngle) {
-          increasing = false; // reverse at the top
+          increasing = false; 
         }
       } else {
         currentAngle -= 2;
         if (currentAngle <= minAngle) {
-          increasing = true; // reverse at the bottom
+          increasing = true; 
         }
       }
 
@@ -54,12 +54,12 @@ void loop() {
       
       else if (lx < -deadzone) {
         lwing.write(currentAngle);
-        rwing.write(90); // Keep right wing neutral
+        rwing.write(90); 
       } 
       
       else if (lx > deadzone) {
         rwing.write(currentAngle);
-        lwing.write(90); // Keep left wing neutral
+        lwing.write(90); 
       } 
 
       else {
